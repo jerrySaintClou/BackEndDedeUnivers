@@ -37,7 +37,16 @@ public class ImageProduitController {
         }
     }
 
-
+    @GetMapping("tousLesImageDuProduit")
+    public ResponseEntity<List<ImageProduit>> allImagesForProduct(){
+        try {
+            List<ImageProduit> imageProduits = new ArrayList<>();
+            imageProduitService.trouverLesImageDunProduit()
+        }catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PostMapping("/ajout")
     public ResponseEntity<ImageProduit> addImageProduit(@RequestBody ImageProduit imageProduit) {

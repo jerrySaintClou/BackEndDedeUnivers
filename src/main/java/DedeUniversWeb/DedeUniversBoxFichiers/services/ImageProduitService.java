@@ -28,7 +28,7 @@ public class ImageProduitService {
         imageProduitRepository.deleteById(id);
     }
 
-    public List<ImageProduit>findAllImageProduitFromProduit(Produit produit){
+    public List<ImageProduit>trouverLesImageDunProduit(Produit produit){
         return this.imageProduitRepository.findByProduitOrderByIdAsc(produit);
     }
 }
