@@ -35,6 +35,18 @@ public class Produit {
     @OneToMany(mappedBy = "produit", fetch = FetchType.LAZY)
     private List<ImageProduit> imageProduits;
 
+    @ManyToOne
+    @JoinColumn(name = "sous_categorie_id")
+    private SousCategorie sousCategorie;
+
+    public SousCategorie getSousCategorie() {
+        return sousCategorie;
+    }
+
+    public void setSousCategorie(SousCategorie sousCategorie) {
+        this.sousCategorie = sousCategorie;
+    }
+
 
     public Produit() {
     }
@@ -102,4 +114,5 @@ public class Produit {
     public void setImageProduits(List<ImageProduit> imageProduits) {
         this.imageProduits = imageProduits;
     }
+
 }

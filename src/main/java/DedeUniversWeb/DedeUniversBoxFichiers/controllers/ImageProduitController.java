@@ -1,7 +1,9 @@
 package DedeUniversWeb.DedeUniversBoxFichiers.controllers;
 
 import DedeUniversWeb.DedeUniversBoxFichiers.entities.ImageProduit;
+import DedeUniversWeb.DedeUniversBoxFichiers.entities.Produit;
 import DedeUniversWeb.DedeUniversBoxFichiers.services.ImageProduitService;
+import DedeUniversWeb.DedeUniversBoxFichiers.services.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ public class ImageProduitController {
     @Autowired
     ImageProduitService imageProduitService;
 
+    @Autowired
+    ProduitService produitService;
 
     @GetMapping("/all")
     public ResponseEntity<List<ImageProduit>> getAllImageProduits(@RequestParam(required = false) String cheminImageProduit ) {
@@ -29,6 +33,9 @@ public class ImageProduitController {
             if (imageProduits.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
+            for(ImageProduit imageProduit:imageProduits){
+                imageProduit.getProduit().setImageProduits(null);
+            }
             return new ResponseEntity<>(imageProduits, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -37,19 +44,23 @@ public class ImageProduitController {
         }
     }
 
-    @GetMapping("tousLesImageDuProduit")
-    public ResponseEntity<List<ImageProduit>> allImagesForProduct(){
+    @GetMapping("/trouverLesImagesDuDernierProduit/{produitId}")
+    public ResponseEntity<List<ImageProduit>> allImagesForProduct(@PathVariable Integer produitId){
         try {
-            List<ImageProduit> imageProduits = new ArrayList<>();
-            imageProduitService.trouverLesImageDunProduit()
+            Produit produit = produitService.findById(produitId);
+            List<ImageProduit> imageProduits =imageProduitService.trouverLesImageDunProduit(produit);
+            for(ImageProduit imageProduit: imageProduits){
+                imageProduit.getProduit().setImageProduits(null);
+            }
+            return new ResponseEntity<>(imageProduits, HttpStatus.OK);
         }catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/ajout")
-    public ResponseEntity<ImageProduit> addImageProduit(@RequestBody ImageProduit imageProduit) {
+    @PostMapping("/ajout/{produitId}")
+    public ResponseEntity<ImageProduit> addImageProduit(@RequestBody ImageProduit imageProduit, @PathVariable Integer produitId) {
 
         try {
             if (imageProduit == null || imageProduit.getCheminImageProduit() == null || imageProduit.getCheminImageProduit().trim().isEmpty())
@@ -57,7 +68,12 @@ public class ImageProduitController {
 
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
+            Produit produit = produitService.findById(produitId);
+            imageProduit.setProduit(produit);
             ImageProduit _imageProduit = imageProduitService.metLeImageProduit(imageProduit);
+            for(ImageProduit imageProduit2: _imageProduit.getProduit().getImageProduits()){
+                imageProduit2.setProduit(null);
+            }
             if (_imageProduit != null) {
                 return new ResponseEntity<>(_imageProduit, HttpStatus.CREATED);
             }
@@ -68,7 +84,45 @@ public class ImageProduitController {
     }
 
 
+    @PutMapping("/modif")
+    public ResponseEntity<ImageProduit>updateImageProduit(@RequestBody ImageProduit imageProduit){
+        try{
+            if (imageProduit == null
+                    || imageProduit.getCheminImageProduit() == null || imageProduit.getCheminImageProduit().trim().isEmpty()
+            ) {
 
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+            ImageProduit _imageProduit = imageProduitService.metLeImageProduit(imageProduit);
+            for(ImageProduit imageProduit2: _imageProduit.getProduit().getImageProduits()){
+                imageProduit2.setProduit(null);
+            }
+            if (_imageProduit != null) {
+                return new ResponseEntity<>(_imageProduit, HttpStatus.CREATED);
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @DeleteMapping("/suppressions/{id}")
+    public ResponseEntity<String> removeImageProduit(@PathVariable("id") Integer id) {
+
+        try {
+            if (id <= 0) {
+                return new ResponseEntity<String>("Erreur : L'id du ImageProduit à supprimer doit être > 0 !",
+                        HttpStatus.BAD_REQUEST);
+            }
+            imageProduitService.suppressionDeLImageDuProduit(id);
+            return new ResponseEntity<String>("Suppression du ImageProduit avec id = '" + id + "' effectuée avec succès.",
+                    HttpStatus.ACCEPTED);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }

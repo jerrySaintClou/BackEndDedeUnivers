@@ -1,6 +1,9 @@
 package DedeUniversWeb.DedeUniversBoxFichiers.entities;
 
 import jakarta.persistence.*;
+
+import java.util.List;
+
 @Entity
 @Table(name = "categories")
 public class Categorie {
@@ -12,6 +15,9 @@ public class Categorie {
 
     @Column(name = "nom_categorie", length = 80, nullable = false)
     private String nomCategorie;
+
+    @OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
+    private List<SousCategorie> sousCategorie;
 
     public Categorie() {
     }
@@ -34,5 +40,13 @@ public class Categorie {
 
     public void setNomCategorie(String nomCategorie) {
         this.nomCategorie = nomCategorie;
+    }
+
+    public List<SousCategorie> getSousCategorie() {
+        return sousCategorie;
+    }
+
+    public void setSousCategorie(List<SousCategorie> sousCategorie) {
+        this.sousCategorie = sousCategorie;
     }
 }
