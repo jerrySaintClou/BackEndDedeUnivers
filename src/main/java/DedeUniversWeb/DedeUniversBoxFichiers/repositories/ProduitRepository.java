@@ -12,6 +12,6 @@ public interface ProduitRepository  extends JpaRepository<Produit, Integer> {
 //    Produit findLastProduit();
 
     List<Produit> findByNomProduitContaining(String nomProduit);
-
-    List<Produit> findBySousCategorieOrderByIdAsc(SousCategorie sousCategorie);
+//
+//    List<Produit> findBySousCategorieOrderByIdAsc(SousCategorie sousCategorie);
 }

@@ -18,9 +18,9 @@ public class SousCategorie {
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
-
-    @OneToMany(mappedBy = "sousCategorie", fetch = FetchType.LAZY)
-    private List<Produit> produits;
+//
+//    @OneToMany(mappedBy = "sousCategorie", fetch = FetchType.LAZY)
+//    private List<Produit> produits;
 
     public SousCategorie() {
     }
@@ -53,12 +53,12 @@ public class SousCategorie {
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
-
-    public List<Produit> getProduits() {
-        return produits;
-    }
-
-    public void setProduits(List<Produit> produits) {
-        this.produits = produits;
-    }
+//
+//    public List<Produit> getProduits() {
+//        return produits;
+//    }
+//
+//    public void setProduits(List<Produit> produits) {
+//        this.produits = produits;
+//    }
 }

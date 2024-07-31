@@ -40,9 +40,10 @@ public class ProduitController {
             if (produits.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            for(Produit produit: produits){
-                produit.getImageProduits().forEach(p->p.setProduit(null));
-            }
+//            for(Produit produit: produits){
+//                produit.getImageProduits().forEach(p->p.setProduit(null));
+////                produit.setSousCategorie(null);
+//            }
             return new ResponseEntity<>(produits, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -50,22 +51,22 @@ public class ProduitController {
         }
     }
 
-
-    @GetMapping("/trouverLesProduitsAvecUneSousCategorie/{sousCategorieId}")
-    public ResponseEntity<List<Produit>> allProductForSubCategory(@PathVariable Integer sousCategorieId){
-        try {
-            SousCategorie sousCategories = sousCategorieService.trouveLaSousCategorieAvecSonId(sousCategorieId);
-            List<Produit> produits =produitService.trouverLesSousCategorieDUnProduit(sousCategories);
-            for(Produit produit: produits){
-                produit.getSousCategorie().setProduits(null);
-                produit.getSousCategorie().getCategorie().setSousCategorie(null);
-            }
-            return new ResponseEntity<>(produits, HttpStatus.OK);
-        }catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//
+//    @GetMapping("/trouverLesProduitsAvecUneSousCategorie/{sousCategorieId}")
+//    public ResponseEntity<List<Produit>> allProductForSubCategory(@PathVariable Integer sousCategorieId){
+//        try {
+//            SousCategorie sousCategories = sousCategorieService.trouveLaSousCategorieAvecSonId(sousCategorieId);
+//            List<Produit> produits =produitService.trouverLesSousCategorieDUnProduit(sousCategories);
+//            for(Produit produit: produits){
+//                produit.getSousCategorie().setProduits(null);
+//                produit.getSousCategorie().getCategorie().setSousCategorie(null);
+//            }
+//            return new ResponseEntity<>(produits, HttpStatus.OK);
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 
     @PostMapping("/ajout")

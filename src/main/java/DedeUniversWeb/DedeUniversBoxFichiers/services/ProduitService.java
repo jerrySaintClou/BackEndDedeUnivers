@@ -30,10 +30,10 @@ public class ProduitService {
         return produitRepository.findByNomProduitContaining(nomProduit);
     }
 
-
-    public List<Produit> trouverLesSousCategorieDUnProduit(SousCategorie sousCategorie){
-        return produitRepository.findBySousCategorieOrderByIdAsc(sousCategorie);
-    }
+//
+//    public List<Produit> trouverLesSousCategorieDUnProduit(SousCategorie sousCategorie){
+//        return produitRepository.findBySousCategorieOrderByIdAsc(sousCategorie);
+//    }
 
     public void suppressionDuProduit(Integer id) {
         // Supprimez le produit avec l'ID spécifié (utilisez votre propre logique ici)
