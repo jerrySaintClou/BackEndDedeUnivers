@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -40,16 +41,33 @@ public class ProduitController {
             if (produits.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-//            for(Produit produit: produits){
-//                produit.getImageProduits().forEach(p->p.setProduit(null));
-////                produit.setSousCategorie(null);
-//            }
+            for(Produit produit: produits){
+                produit.getImageProduits().forEach(p->p.setProduit(null));
+//                produit.setSousCategorie(null);
+            }
             return new ResponseEntity<>(produits, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Produit> getBookById(@RequestParam(required = false) Integer id) {
+            try{
+                if (id <= 0) {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+                else {
+                    Produit produit = produitService.findById(id);
+                    produit.getImageProduits().forEach(p->p.setProduit(null));
+                    return new ResponseEntity<>(produit, HttpStatus.OK);
+                }
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+    }
+
 
 //
 //    @GetMapping("/trouverLesProduitsAvecUneSousCategorie/{sousCategorieId}")
