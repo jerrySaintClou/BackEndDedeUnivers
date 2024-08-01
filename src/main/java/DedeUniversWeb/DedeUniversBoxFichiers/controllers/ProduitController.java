@@ -108,7 +108,7 @@ public class ProduitController {
 
 
     @PutMapping("/modif")
-    public ResponseEntity<Produit>updateProduit(@RequestBody Produit produit){
+    public ResponseEntity<String>updateProduit(@RequestBody Produit produit){
         try {
             if (produit == null
                     || produit.getNomProduit() == null || produit.getNomProduit().trim().isEmpty()
@@ -120,7 +120,7 @@ public class ProduitController {
             }
             Produit _produit = produitService.save(produit);
             if (_produit != null) {
-                return new ResponseEntity<>(_produit, HttpStatus.CREATED);
+                return new ResponseEntity<String>("Le produit a pu etre modifier!", HttpStatus.CREATED);
             }
         }catch(Exception e) {
             e.printStackTrace();

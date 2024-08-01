@@ -32,7 +32,7 @@ public class Produit {
     @Temporal(TemporalType.DATE)
     private Date dateMiseEnLigne;
 
-    @OneToMany(mappedBy = "produit", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "produit", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageProduit> imageProduits;
 //
 //    @ManyToOne

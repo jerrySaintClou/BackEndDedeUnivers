@@ -15,6 +15,11 @@ public class ImageProduit {
     @JoinColumn(name = "produit_id")
     private Produit produit;
 
+
+//    @ManyToOne
+//    @JoinColumn(name = "produit_id")
+//    private Produit produit;
+
     public ImageProduit() {
     }
 
